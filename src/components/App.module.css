@@ -1,0 +1,14 @@
+.email {
+  padding: 12px 16px;
+  border-radius: 4px;
+  color: red;
+}
+
+
+.success {
+  background-color: green;
+}
+
+.error {
+  background-color: red;
+}

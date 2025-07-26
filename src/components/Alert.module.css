@@ -1,0 +1,14 @@
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  color: rgb(199, 161, 10);
+}
+
+
+.success {
+  background-color: green;
+}
+
+.error {
+  background-color: red;
+}
