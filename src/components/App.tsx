@@ -6,6 +6,11 @@ import Alert from './Alert';
 import Button from './Button';
 import ClickCounter from './ClickCounter';
 import { useState } from 'react';
+import OrderForm from './OrderForm';
+import SearchForm from './SearchForm';
+import { Article } from '../types/article';
+import ArticleList from './ArticleList';
+import { fetchArticles } from '../services/articleService';
 
 const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
   console.log("I'm a button!");
@@ -26,7 +31,6 @@ export default function App() {
       [key]: values[key] + 1,
     });
   };
-
 
   // const updateX = () => {
   //   setValues({
@@ -56,6 +60,50 @@ export default function App() {
 
   const toggleMessage = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    console.log(form.username.value);
+
+    const formData = new FormData(form);
+    const username = formData.get('username');
+    console.log('Username:', username);
+
+    form.reset();
+  };
+
+  const handleSubmit2 = (formData: FormData) => {
+    const username = formData.get('usernamee') as string;
+    console.log('Name:', username);
+  };
+
+  const handleSubmit3 = (formData: FormData) => {
+    const username = formData.get('usernameee') as string;
+    console.log('Name:', username);
+  };
+
+  const handleOrder = (data: string) => {
+    console.log('Order received from:', data);
+  };
+
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const handleSearch = async (topic: string) => {
+    try {
+      setIsLoading(true);
+      setIsError(false);
+      const response = await fetchArticles(topic);
+      setArticles(response);
+    } catch {
+      setIsError(true);
+    }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -92,6 +140,32 @@ export default function App() {
       <Button variant="secondary" text="Follow" />
       <button onClick={handleClick2}>First button</button>
       <button onClick={(event) => console.log(event)}>Second button</button>
+
+      <form
+        onSubmit={handleSubmit}
+        style={{ marginTop: '50px', marginBottom: '50px' }}
+      >
+        <input type="text" name="username" />
+        <button type="submit">Submit</button>
+      </form>
+
+      <form action={handleSubmit2}>
+        <input type="text" name="usernamee" />
+        <button type="submit">Submit</button>
+      </form>
+
+      <form action={handleSubmit3}>
+        <input type="text" name="usernameee" defaultValue="John Doe" />
+        <button type="submit">Submit</button>
+      </form>
+
+      <h1>Place your order</h1>
+      <OrderForm onSubmit={handleOrder} />
+
+      <SearchForm onSubmit={handleSearch} />
+      {isLoading && <p>Loading data, please wait...</p>}
+      {isError && <p>Whoops, something went wrong! Please try again!</p>}
+      {articles.length > 0 && !isError && <ArticleList items={articles} />}
     </>
   );
 }
