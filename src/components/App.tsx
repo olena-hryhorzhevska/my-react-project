@@ -12,7 +12,7 @@ import { Article } from '../types/article';
 import ArticleList from './ArticleList';
 import { fetchArticles } from '../services/articleService';
 
-const myKey = import.meta.env.VITE_API_KEY;
+// const myKey = import.meta.env.VITE_API_KEY;
 
 const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
   console.log("I'm a button!");
