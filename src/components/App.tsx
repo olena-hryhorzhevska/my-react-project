@@ -16,6 +16,10 @@ import { useId } from 'react';
 import { Article } from '../types/article';
 import { fetchArticles } from '../services/articleService';
 import axios from 'axios';
+import UseQueryExample from './UseQuery';
+import UseQueryDynamic from './UseQueryDynamic'
+import UseQueryEnabled from './UseQueryEnabled'
+import OrderFormFormik from './OrderFormFormik';
 
 // const myKey = import.meta.env.VITE_API_KEY;
 
@@ -336,6 +340,14 @@ export default function App() {
         You clicked {clicks3} times
       </button>
       <button onClick={() => setClicks3(0)}>Reset</button>
+
+      <UseQueryExample />
+
+      <UseQueryDynamic />
+
+      <UseQueryEnabled />
+      
+      <OrderFormFormik />
     </div>
   );
 }
