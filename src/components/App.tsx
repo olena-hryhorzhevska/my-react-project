@@ -20,6 +20,7 @@ import UseQueryExample from './UseQuery';
 import UseQueryDynamic from './UseQueryDynamic'
 import UseQueryEnabled from './UseQueryEnabled'
 import OrderFormFormik from './OrderFormFormik';
+import UseMutation from './UseMutation';
 
 // const myKey = import.meta.env.VITE_API_KEY;
 
@@ -348,6 +349,8 @@ export default function App() {
       <UseQueryEnabled />
       
       <OrderFormFormik />
+
+      <UseMutation />
     </div>
   );
 }
