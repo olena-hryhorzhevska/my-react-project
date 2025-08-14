@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 // useMutation({
@@ -17,6 +17,7 @@ type CreateTodo = { title: string; completed: boolean }; // TVariables
 type Todo = { id: number; title: string; completed: boolean }; // TData
 
 export default function App() {
+  const queryClient = useQueryClient();
   const mutation = useMutation<Todo, Error, CreateTodo>({
     mutationFn: async (newTodo) => {
       const res = await axios.post<Todo>(
@@ -26,12 +27,14 @@ export default function App() {
       return res.data; // тип: Todo
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries({queryKey: ['todos']}); // сброс кэша
       console.log('Todo added successfully', data.id);
     },
   });
 
   const handleCreateTodo = () => {
     mutation.mutate({ title: 'My new todo', completed: false }); // аргумент: CreateTodo
+    
   };
 
   return (

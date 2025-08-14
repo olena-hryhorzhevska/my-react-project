@@ -17,10 +17,14 @@ import { Article } from '../types/article';
 import { fetchArticles } from '../services/articleService';
 import axios from 'axios';
 import UseQueryExample from './UseQuery';
-import UseQueryDynamic from './UseQueryDynamic'
-import UseQueryEnabled from './UseQueryEnabled'
+import UseQueryDynamic from './UseQueryDynamic';
+import UseQueryEnabled from './UseQueryEnabled';
 import OrderFormFormik from './OrderFormFormik';
 import UseMutation from './UseMutation';
+import UseDebounce from './UseDebounce';
+import DummyApiDebounce from './DummyApiDebounce';
+import { useWindowWidth } from '../hooks/useWindowWidth';
+import { useWindowSize } from 'react-use';
 
 // const myKey = import.meta.env.VITE_API_KEY;
 
@@ -189,6 +193,19 @@ export default function App() {
     localStorage.setItem('saved-clicks', JSON.stringify(clicks3));
   }, [clicks3]);
 
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const windowWidth = useWindowWidth();
+  const { width } = useWindowSize();
+
+
+
+
+
   return (
     <div>
       <p>
@@ -347,10 +364,27 @@ export default function App() {
       <UseQueryDynamic />
 
       <UseQueryEnabled />
-      
+
       <OrderFormFormik />
 
       <UseMutation />
+
+      <input type="text" value={inputValue} onChange={handleChange} />
+      <p>{inputValue}</p>
+
+      <UseDebounce />
+
+      <DummyApiDebounce />
+
+      <p style={{ fontWeight: 'bold' }}>
+        Current window width (own hook):{' '}
+        <span style={{ color: 'red' }}>{windowWidth}px</span>
+      </p>
+
+      <p style={{ fontWeight: 'bold' }}>
+        Current window width:{' '}
+        <span style={{ color: 'red' }}>{width}px</span>
+      </p>
     </div>
   );
 }
